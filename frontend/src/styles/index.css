@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root, [data-theme='dark'] {
+  --ink: 6 11 26; --panel: 14 22 48; --raise: 22 33 66; --line: 40 55 98;
+  --text: 230 237 248; --muted: 143 160 192;
+  --cyan: 61 224 255; --violet: 139 108 255; --amber: 255 179 71; --red: 255 92 108; --green: 74 222 160;
+  --grid: rgb(61 224 255 / 0.045);
+  color-scheme: dark;
+}
+[data-theme='light'] {
+  --ink: 244 247 252; --panel: 255 255 255; --raise: 235 240 249; --line: 200 210 230;
+  --text: 14 22 48; --muted: 83 98 130;
+  --cyan: 0 124 158; --violet: 94 63 214; --amber: 168 98 0; --red: 193 30 52; --green: 14 122 82;
+  --grid: rgb(14 22 48 / 0.05);
+  color-scheme: light;
+}
+/* motion tokens (mirrored in src/lib/motion.ts) */
+:root { --t-fast: 140ms; --t-base: 260ms; --ease: cubic-bezier(0.2, 0.8, 0.2, 1); }
+
+html { scroll-behavior: smooth; scroll-padding-top: calc(4.5rem + env(safe-area-inset-top, 0px)); }
+body {
+  margin: 0; font-family: theme('fontFamily.sans'); font-size: 15px; line-height: 1.6;
+  background-color: rgb(var(--ink)); color: rgb(var(--text));
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 56px 56px;
+  padding-left: env(safe-area-inset-left, 0px); padding-right: env(safe-area-inset-right, 0px);
+}
+h1, h2, h3 { letter-spacing: -0.02em; line-height: 1.15; font-weight: 600; }
+:focus-visible { outline: 2px solid rgb(var(--cyan)); outline-offset: 2px; }
+::selection { background: rgb(var(--violet) / 0.45); }
+code, pre, .mono { font-family: theme('fontFamily.mono'); font-size: 0.86em; }
+
+[data-motion='reduced'] *, [data-motion='reduced'] *::before, [data-motion='reduced'] *::after {
+  animation-duration: 0.001ms !important; animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important; scroll-behavior: auto !important;
+}
+html[data-motion='reduced'] { scroll-behavior: auto; }
+
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+.spin-slow { animation: spin-slow 14s linear infinite; transform-origin: center; transform-box: fill-box; }
+.spin-fast { animation: spin-slow 2.4s linear infinite; transform-origin: center; transform-box: fill-box; }
+
+.react-flow__attribution { display: none; }
+
+@media print {
+  nav, .no-print, footer { display: none !important; }
+  body { background: #fff !important; color: #000 !important; background-image: none; }
+  .print-all { display: block !important; }
+}
